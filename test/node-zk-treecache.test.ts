@@ -563,7 +563,7 @@ describe("public interface", () => {
     15000
   ) // timeout is 15s
 
-  test(
+  test.skip(
     "killed session",
     async () => {
       const client = createClient("localhost:2181")
@@ -590,7 +590,7 @@ describe("public interface", () => {
     pending("until found a way to start/stop the server in the test itself")
   })
 
-  test("error listener", async () => {
+  test.skip("error listener", async () => {
     await zk.create("/root")
 
     let treeCache = await buildWithListener(treeCacheBuilder(client, "/root"))
@@ -632,7 +632,7 @@ describe("public interface", () => {
     treeCache.close()
   })
 
-  test("listener", async () => {
+  test.skip("listener", async () => {
     await zk.create("/root")
 
     let treeCache = await buildWithListener(treeCacheBuilder(client, "/root"))
