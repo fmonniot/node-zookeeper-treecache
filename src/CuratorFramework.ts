@@ -53,7 +53,6 @@ export interface CuratorFramework {
 export function newCuratorFramework(zkClient: Client): CuratorFramework {
   const zk = zkClient as any
   zk.connectionManager.setMaxListeners(100)
-  console.log("zk === zkClient", zk === zkClient)
   return new CuratorFrameworkImpl(zk)
 }
 
