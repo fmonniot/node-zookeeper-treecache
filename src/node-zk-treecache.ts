@@ -11,7 +11,7 @@ import { Client } from "node-zookeeper-client"
 import { TreeCacheSelector } from "./TreeCacheSelector"
 import { TreeCacheBuilder } from "./TreeCacheBuilder"
 import { TreeCache, ChildData } from "./TreeCache"
-import { TreeCacheEventType, TreeCacheEvent } from "../src/TreeCache"
+import { TreeCacheEventType, TreeCacheEvent } from "./TreeCache"
 
 function treeCacheBuilder(client: Client, path: string) {
   return new TreeCacheBuilder(client, path)
