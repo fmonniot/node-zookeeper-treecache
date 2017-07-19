@@ -2,5 +2,10 @@
   "extends": [
     "tslint-config-standard",
     "tslint-config-prettier"
-  ]
+  ],
+  "rules": {
+    "comment": "The next two rules are deactivated until a better solution with prettier can be found",
+    "jsdoc-format": false,
+    "curly": false
+  }
 }
