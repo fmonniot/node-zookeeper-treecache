@@ -23,12 +23,12 @@ export enum CuratorEventType {
   /**
    * Corresponds to {@link CuratorFramework#checkExists()}
    */
-  EXISTS = "EXISTS",
+  EXISTS,
 
   /**
      * Corresponds to {@link CuratorFramework#getData()}
      */
-  GET_DATA = "GET_DATA",
+  GET_DATA,
 
   /**
      * Corresponds to {@link CuratorFramework#setData()}
@@ -38,7 +38,7 @@ export enum CuratorEventType {
   /**
      * Corresponds to {@link CuratorFramework#getChildren()}
      */
-  CHILDREN = "CHILDREN"
+  CHILDREN
 
   /**
    * Corresponds to {@link CuratorFramework#sync(String, Object)}

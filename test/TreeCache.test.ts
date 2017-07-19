@@ -125,7 +125,7 @@ describe("TreeCache", () => {
           new Date()
         ).toString()
       ).toEqual(
-        "TreeCacheEvent { type = NODE_UPDATED, path = /path, data = {" +
+        "TreeCacheEvent { type = 1, path = /path, data = {" +
           '"path":"/path","stat":"defined","data":{"type":"Buffer","data":[100,97,116,97]}' +
           "} }"
       )
@@ -135,9 +135,7 @@ describe("TreeCache", () => {
           null,
           new Date()
         ).toString()
-      ).toEqual(
-        "TreeCacheEvent { type = NODE_UPDATED, path = null, data = undefined }"
-      )
+      ).toEqual("TreeCacheEvent { type = 1, path = null, data = undefined }")
     })
   })
 })

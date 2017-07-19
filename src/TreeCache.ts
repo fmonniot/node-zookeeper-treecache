@@ -17,7 +17,6 @@ import { TreeCacheSelector } from "./TreeCacheSelector"
 import { validatePath } from "./PathUtils"
 import { checkNotNull } from "./Utils"
 import * as ZkPaths from "./ZkPaths"
-import { type } from "os"
 
 export interface ZooKeeperStat {
   czxid: Buffer
@@ -35,7 +34,7 @@ export interface ZooKeeperStat {
 
 export interface ChildData {
   readonly path: string
-  readonly stat: ZooKeeperStat
+  readonly stat: ZooKeeperStat | null
   readonly data: Buffer | undefined
 }
 
@@ -47,6 +46,9 @@ export function compareChildData(cd1: ChildData, cd2: ChildData): boolean {
   if (cd1.data && cd2.data && !cd1.data.equals(cd2.data)) return false
 
   if (cd1.path !== cd2.path) return false
+
+  if ((cd1.stat && !cd2.stat) || (!cd1.stat && cd2.stat)) return false
+  if (!cd1.stat || !cd2.stat) return true
 
   if (cd1.stat.czxid.toString("base64") !== cd2.stat.czxid.toString("base64"))
     return false
@@ -126,9 +128,9 @@ export interface TreeCache {
 }
 
 enum NodeState {
-  PENDING = "PENDING",
-  LIVE = "LIVE",
-  DEAD = "DEAD"
+  PENDING,
+  LIVE,
+  DEAD
 }
 
 export interface Logger {
@@ -291,7 +293,8 @@ class TreeNode implements ZooKeeperWatcher, CuratorCallback {
           const newStat = event.stat
           const oldChildData = this._childData
           if (
-            oldChildData !== null &&
+            oldChildData &&
+            oldChildData.stat &&
             oldChildData.stat.mzxid.toString("base64") ===
               newStat.mzxid.toString("base64")
           ) {
@@ -409,7 +412,8 @@ class TreeNode implements ZooKeeperWatcher, CuratorCallback {
             )
           } else {
             if (
-              oldChildData === null ||
+              !oldChildData ||
+              !oldChildData.stat ||
               oldChildData.stat.mzxid.toString("base64") !==
                 newStat.mzxid.toString("base64")
             ) {
@@ -565,17 +569,17 @@ export enum TreeCacheEventType {
   /**
    * A node was added.
    */
-  NODE_ADDED = "NODE_ADDED",
+  NODE_ADDED,
 
   /**
      * A node's data was changed
      */
-  NODE_UPDATED = "NODE_UPDATED",
+  NODE_UPDATED,
 
   /**
      * A node was removed from the tree
      */
-  NODE_REMOVED = "NODE_REMOVED",
+  NODE_REMOVED,
 
   /**
      * Called when the connection has changed to {@link ConnectionState#SUSPENDED}
@@ -588,7 +592,7 @@ export enum TreeCacheEventType {
      * for all of the adds, deletes and updates that happened during the time that it was disconnected.
      * </p>
      */
-  CONNECTION_SUSPENDED = "CONNECTION_SUSPENDED",
+  CONNECTION_SUSPENDED,
 
   /**
      * Called when the connection has changed to {@link ConnectionState#RECONNECTED}
@@ -604,7 +608,7 @@ export enum TreeCacheEventType {
      * {@link #INITIALIZED} event.
      * </p>
      */
-  CONNECTION_RECONNECTED = "CONNECTION_RECONNECTED",
+  CONNECTION_RECONNECTED,
 
   /**
      * Called when the connection has changed to {@link ConnectionState#LOST}
@@ -617,7 +621,7 @@ export enum TreeCacheEventType {
      * for all of the adds, deletes and updates that happened during the time that it was disconnected.
      * </p>
      */
-  CONNECTION_LOST = "CONNECTION_LOST",
+  CONNECTION_LOST,
 
   /**
      * Posted after the initial cache has been fully populated.
@@ -634,7 +638,7 @@ export enum TreeCacheEventType {
      * (such as a {@link #NODE_UPDATED}) prior to this event being published.
      * </p>
      */
-  INITIALIZED = "INITIALIZED"
+  INITIALIZED
 }
 
 export type TreeCacheListener = (
