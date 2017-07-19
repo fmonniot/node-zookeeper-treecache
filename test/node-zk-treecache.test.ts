@@ -593,9 +593,7 @@ describe("public interface", () => {
   test("error listener", async () => {
     await zk.create("/root")
 
-    let treeCache = await buildWithListener(
-      treeCacheBuilder(client, "/root").withCacheData(false)
-    )
+    let treeCache = await buildWithListener(treeCacheBuilder(client, "/root"))
 
     assertEvent(TreeCacheEventType.NODE_ADDED, "/root")
     assertEvent(TreeCacheEventType.INITIALIZED)
@@ -612,7 +610,7 @@ describe("public interface", () => {
     treeCache.addErrorListener(errorListener)
 
     await zk.setData("/root", "hey there")
-    await timeout(0)
+    await timeout(50)
 
     assertEvent(TreeCacheEventType.NODE_UPDATED, "/root", "hey there")
     assertNoMoreEvents()
@@ -624,7 +622,7 @@ describe("public interface", () => {
     treeCache.removeErrorListener(errorListener)
 
     await zk.setData("/root", "two")
-    await timeout(0)
+    await timeout(50)
 
     assertEvent(TreeCacheEventType.NODE_UPDATED, "/root", "two")
     assertNoMoreEvents()
@@ -637,9 +635,7 @@ describe("public interface", () => {
   test("listener", async () => {
     await zk.create("/root")
 
-    let treeCache = await buildWithListener(
-      treeCacheBuilder(client, "/root").withCacheData(false)
-    )
+    let treeCache = await buildWithListener(treeCacheBuilder(client, "/root"))
 
     assertEvent(TreeCacheEventType.NODE_ADDED, "/root")
     assertEvent(TreeCacheEventType.INITIALIZED)
@@ -651,7 +647,7 @@ describe("public interface", () => {
     treeCache.addListener(listener)
 
     await zk.setData("/root", "hey there")
-    await timeout(5)
+    await timeout(50)
 
     assertEvent(TreeCacheEventType.NODE_UPDATED, "/root", "hey there")
     assertNoMoreEvents()
@@ -671,7 +667,7 @@ describe("public interface", () => {
     treeCache.removeListener(listener)
 
     await zk.setData("/root", "two")
-    await timeout(0)
+    await timeout(50)
 
     assertEvent(TreeCacheEventType.NODE_UPDATED, "/root", "two")
     assertNoMoreEvents()
