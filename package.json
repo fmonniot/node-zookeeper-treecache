@@ -106,9 +106,10 @@
     "typedoc": "^0.7.1",
     "typedoc-plugin-external-module-name": "^1.0.9",
     "typescript": "^2.3.4",
-    "validate-commit-msg": "^2.12.2"
+    "validate-commit-msg": "^2.12.2",
+    "node-zookeeper-client": "^0.2.2"
   },
-  "dependencies": {
+  "peerDependencies": {
     "node-zookeeper-client": "^0.2.2"
   }
 }
