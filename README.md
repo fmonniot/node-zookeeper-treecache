@@ -1,5 +1,6 @@
 # ZooKeeper TreeCache for node.js
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 [![Greenkeeper badge](https://badges.greenkeeper.io/fmonniot/node-zookeeper-treecache.svg)](https://greenkeeper.io/)
 [![Travis](https://img.shields.io/travis/fmonniot/node-zookeeper-treecache.svg)](https://travis-ci.org/fmonniot/node-zookeeper-treecache)
 [![Coveralls](https://img.shields.io/coveralls/fmonniot/node-zookeeper-treecache.svg)](https://coveralls.io/github/fmonniot/node-zookeeper-treecache)
